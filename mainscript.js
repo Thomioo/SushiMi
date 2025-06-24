@@ -47,6 +47,39 @@ function toggleStopwatch() {
 // Add click event to stopwatch
 stopwatchDisplay.addEventListener('click', toggleStopwatch);
 
+// Fullscreen functionality
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        // Enter fullscreen
+        document.documentElement.requestFullscreen().then(() => {
+            fullscreenBtn.textContent = '⛷'; // Exit fullscreen icon
+        }).catch(err => {
+            console.log('Error attempting to enable fullscreen:', err);
+        });
+    } else {
+        // Exit fullscreen
+        document.exitFullscreen().then(() => {
+            fullscreenBtn.textContent = '⛶'; // Enter fullscreen icon
+        }).catch(err => {
+            console.log('Error attempting to exit fullscreen:', err);
+        });
+    }
+}
+
+// Add click event to fullscreen button
+fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+// Listen for fullscreen changes (e.g., when user presses Esc)
+document.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+        fullscreenBtn.textContent = '⛶'; // Exit fullscreen icon
+    } else {
+        fullscreenBtn.textContent = '⛶'; // Enter fullscreen icon
+    }
+});
+
 // Function to update total counter
 function updateTotalCounter() {
     const counters = document.querySelectorAll('.counter');
@@ -98,17 +131,55 @@ function createUser(name = '', colorIndex = 0) {
     const counter = document.createElement('div');
     counter.className = 'counter';
     counter.textContent = '0';
-    userDiv.appendChild(counter);
-
-    // + button below the counter
+    userDiv.appendChild(counter);    // + button below the counter
     const plusBtn = document.createElement('button');
     plusBtn.className = 'increment-btn';
     plusBtn.textContent = '+';
-    plusBtn.onclick = () => {
+    // Function to handle increment with proper concurrency support
+    const incrementCounter = () => {
+        // Use atomic operation to prevent race conditions
         let val = parseInt(counter.textContent, 10) || 0;
         counter.textContent = val + 1;
         updateTotalCounter(); // Update total counter on increment
     };
+
+    // Prevent double-firing on devices that support both touch and mouse
+    let lastTouchTime = 0;
+    let hasTouch = false;
+
+    // Handle touch events for true multitouch support
+    plusBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        hasTouch = true;
+        lastTouchTime = Date.now();
+
+        // Support multiple simultaneous touches
+        for (let i = 0; i < e.touches.length; i++) {
+            incrementCounter();
+        }
+    }, { passive: false });
+
+    // Handle click events for mouse/desktop
+    plusBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // If touch event fired recently, ignore the click to prevent double increment
+        if (hasTouch && Date.now() - lastTouchTime < 300) {
+            return;
+        }
+
+        incrementCounter();
+    });
+
+    // Reset touch flag after a delay
+    plusBtn.addEventListener('touchend', () => {
+        setTimeout(() => {
+            hasTouch = false;
+        }, 300);
+    });
+
     userDiv.appendChild(plusBtn);
 
     container.appendChild(userDiv);
@@ -122,7 +193,8 @@ if (window.userSortable) window.userSortable.destroy();
 window.userSortable = Sortable.create(container, {
     animation: 180, // Use SortableJS built-in animation
     ghostClass: 'sortable-ghost',
-    setOption: true,
+    filter: '.increment-btn', // Prevent dragging by the increment button
+    preventOnFilter: false, // Allow the button to still function
     onStart: function (evt) {
         evt.item.classList.add('moving');
     },
