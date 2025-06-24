@@ -189,22 +189,6 @@ function createUser(name = '', colorIndex = 0) {
 // Remove addUser button and editing
 addUserButton.style.display = 'none';
 
-// Enable SortableJS for the container
-if (window.userSortable) window.userSortable.destroy();
-window.userSortable = Sortable.create(container, {
-    animation: 180, // Use SortableJS built-in animation
-    ghostClass: 'sortable-ghost',
-    filter: '.increment-btn', // Prevent dragging by the increment button
-    preventOnFilter: false, // Allow the button to still function
-    onStart: function (evt) {
-        evt.item.classList.add('moving');
-    },
-    onEnd: function (evt) {
-        evt.item.classList.remove('moving');
-        updateContainerLayout(); // Update layout after drag ends
-    }
-});
-
 // Function to update container layout based on number of cards
 function updateContainerLayout() {
     const users = container.querySelectorAll('.user');
@@ -213,15 +197,45 @@ function updateContainerLayout() {
     console.log('updateContainerLayout called, userCount:', userCount);
 
     // Remove any existing layout classes
-    container.classList.remove('two-cards');
+    container.classList.remove('two-cards', 'one-card');
+    document.body.classList.remove('single-card');
+
+    // Destroy existing sortable instance
+    if (window.userSortable) {
+        window.userSortable.destroy();
+        window.userSortable = null;
+    }
 
     // Add appropriate class based on user count
-    if (userCount === 2) {
-        container.classList.add('two-cards');
-        console.log('Added two-cards class');
+    if (userCount === 1) {
+        container.classList.add('one-card');
+        document.body.classList.add('single-card');
+        console.log('Added one-card class and single-card body class');
+        // Don't create sortable for single card - disable dragging
+    } else {
+        // Create sortable instance for multiple cards
+        window.userSortable = Sortable.create(container, {
+            animation: 180,
+            ghostClass: 'sortable-ghost',
+            filter: '.increment-btn',
+            preventOnFilter: false,
+            onStart: function (evt) {
+                evt.item.classList.add('moving');
+            },
+            onEnd: function (evt) {
+                evt.item.classList.remove('moving');
+                updateContainerLayout();
+            }
+        });
+
+        if (userCount === 2) {
+            container.classList.add('two-cards');
+            console.log('Added two-cards class');
+        }
     }
 
     console.log('Container classes:', container.className);
+    console.log('Body classes:', document.body.className);
 }
 
 // Load data from URL
