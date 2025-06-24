@@ -262,7 +262,7 @@ button:active {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 1.2em;
-    padding: 0.5em 2em;
+    padding: 0.5em 1em;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     border: 2px solid rgba(255, 255, 255, 0.3);
     height: 4.3em;
