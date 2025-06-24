@@ -1,0 +1,118 @@
+@font-face {
+    font-family: Shirouga;
+    src: url('/fonts/Shirouga.otf');
+}
+
+* {
+    user-select: none;
+    transition: all 0.3s;
+    font-family: Shirouga;
+}
+
+h1 {
+    text-align: center;
+    font-family: Shirouga;
+    font-size: 4rem;
+}
+
+body {
+    background: #EEAECA;
+    background: linear-gradient(320deg, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input {
+    font-family: Shirouga;
+    font-size: 1em;
+    color: #fff;
+    background-color: rgb(28, 28, 30);
+    box-shadow: none;
+    border-radius: 0.5em;
+    border: none;
+    outline: none;
+    padding: 0.5em;
+    transition: .3s;
+    width: 40vw;
+    margin-bottom: 5px;
+}
+
+.input:hover {
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5), 0 0 0 .15vw transparent;
+}
+
+.add {
+    color: #ffffff90;
+    text-shadow: #666;
+    user-select: none;
+    padding: 0.5em;
+    width: 20vw;
+    font-size: 1em;
+    border-radius: 0.5em;
+    background: #16ab1660;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+}
+
+.remove {
+    color: #ffffff90;
+    text-shadow: #666;
+    user-select: none;
+    padding: 0.5em;
+    width: 20vw;
+    font-size: 1em;
+    border-radius: 0.5em;
+    background: #ff000060;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+}
+
+.done {
+    margin-top: 5px;
+    color: #232323c6;
+    text-shadow: #666;
+    user-select: none;
+    padding: 0.5em;
+    width: 100%;
+    font-size: 1em;
+    border-radius: 0.5em;
+    background: #ffffff60;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+}
+
+.color {
+    margin-bottom: 5px;
+    margin-left: 0.2em;
+    color: #ff1fd6aa;
+    color: #ffffff90;
+    text-shadow: #666;
+    user-select: none;
+    padding: 0.5em;
+    width: 2.3em;
+    font-size: 1em;
+    border-radius: 0.5em;
+    background-color: #ffffff60;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+}
+
+button:active {
+    color: #666;
+}
+
+.user {
+    display: flex;
+}
