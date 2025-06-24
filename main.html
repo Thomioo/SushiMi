@@ -3,13 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SushiMi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Drag with Placeholder</title>
     <link rel="stylesheet" href="style.css">
-    <script src="mainscript.js" defer></script>
 </head>
 
-<body onload="loadConfig()">
+<body>
+    <button id="addUser">Add User</button>
+
+    <div id="stopwatch-bar">
+        <div id="stopwatch" class="stopwatch-display">0:00:00</div>
+        <p class="name">SushiMi</p>
+        <p id="total" class="total"></p>
+    </div>
+    </div>
+
+    <div id="container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="mainscript.js"></script>
 </body>
 
 </html>

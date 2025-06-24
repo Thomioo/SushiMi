@@ -21,6 +21,8 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+    margin: 0;
+    padding: 0;
 }
 
 .names {
@@ -113,6 +115,205 @@ button:active {
     color: #666;
 }
 
-.user {
+#container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: none !important;
+}
+
+#container .user {
+    flex: 0 1 calc(50% - 4px);
+    box-sizing: border-box;
+    margin: 0;
+    margin-top: 40px;
+    min-width: 0;
+    max-width: 100%;
+    padding: 20px 16px 16px 16px;
+    border: none;
+    min-height: 200px;
+    border-radius: 1em;
+    box-shadow: 0 6px 32px 0 rgba(60, 60, 60, 0.13);
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    transition: box-shadow 0.2s, border 0.2s;
+    transition: transform none;
+    z-index: 1;
+    will-change: transform, top, left;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+#container .user:hover {
+    box-shadow: 0 12px 36px 0 rgba(60, 60, 60, 0.22);
+}
+
+#container .user:active {
+    cursor: grabbing;
+}
+
+#container .user.moving {
+    /* Placeholder for future moving animations */
+    transform: scale(1.02);
+}
+
+#container .user.animated {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s, border 0.2s, top 0.25s, left 0.25s;
+}
+
+#container .user-name {
+    width: 100%;
+    margin: 0 auto 0 auto;
+    padding: 10px 0 0 0;
+    border: none;
+    border-radius: 0.5em;
+    font-size: 1.5rem;
+    background: transparent;
+    color: #2228;
+    font-weight: 400;
+    text-align: center;
+    word-break: break-word;
+    letter-spacing: 0.04em;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    font-family: Shirouga 'Segoe UI', Arial, sans-serif !important;
+
+}
+
+.counter {
+    font-size: 5rem;
+    font-weight: 700;
+    color: #222;
+    text-align: center;
+    margin: 1em auto 0 auto;
+    line-height: 1.1;
+    user-select: none;
+    font-family: 'Segoe UI', Arial, sans-serif !important;
+}
+
+.increment-btn {
+    display: block;
+    margin: auto auto 0 auto;
+    font-size: 2rem;
+    width: 100%;
+    height: 30%;
+    border-radius: 0.5em;
+    border: none;
+    background: #ffffff90;
+    outline: none;
+    color: #222;
+    font-weight: 700;
+    box-shadow: 0 2px 14px 0 rgba(60, 60, 60, 0.20);
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s, border 0.18s, transform 0.15s;
+}
+
+.increment-btn:hover {
+    transform: scale(1.01);
+}
+
+.sortable-ghost {
+    opacity: 0 !important;
+    /* filter: blur(1px); */
+    box-shadow: none !important;
+}
+
+/* Flip only the top row cards vertically */
+#container .user:nth-child(1),
+#container .user:nth-child(2) {
+    margin-top: 0px;
+    margin-bottom: 40px;
+    transform: scaleY(-1) scaleX(-1);
+}
+
+#container .user:nth-child(1).moving,
+#container .user:nth-child(2).moving {
+    transform: scale(1.02) scaleY(-1) scaleX(-1);
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
+/* Stopwatch bar styles */
+#stopwatch-bar {
+    position: fixed;
+    top: 50%;
+    left: 8px;
+    right: 8px;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 1.2em;
+    padding: 0.5em 2em;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    height: 4.3em;
+    box-sizing: border-box;
+}
+
+.stopwatch-display {
+    font-family: 'Segoe UI', Arial, sans-serif !important;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #e74c3c;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s, color 0.2s;
+    justify-self: start;
+}
+
+.stopwatch-display:hover {
+    transform: scale(1.05);
+    color: #c0392b;
+}
+
+.stopwatch-display.paused {
+    color: #000000;
+}
+
+.total {
+    font-family: 'Segoe UI', Arial, sans-serif !important;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000000;
+    user-select: none;
+    transition: transform 0.2s, color 0.2s;
+    margin: 0;
+}
+
+.name {
+    font-family: Shirouga;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000000;
+    user-select: none;
+    transition: transform 0.2s, color 0.2s;
+    margin: 0;
+}
+
+
+.total:first-of-type {
+    justify-self: center;
+}
+
+.total:last-of-type {
+    justify-self: end;
 }

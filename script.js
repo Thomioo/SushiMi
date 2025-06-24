@@ -14,6 +14,9 @@ removeBtn.addEventListener("click", () => {
 });
 
 addBtn.addEventListener("click", () => {
+    if (users.length > 3) {
+        return;
+    }
     const names = document.getElementById("names");
     const children = names.getElementsByClassName("user");
 
@@ -55,28 +58,44 @@ addBtn.addEventListener("click", () => {
 
 doneBtn.addEventListener("click", () => {
     let rawNames = "";
-    let namesList = document.getElementById("names").getElementsByTagName("input");
+    let namesList = document.getElementById("names").getElementsByClassName("input");
     let rawColors = "";
+
+    if (namesList.length != colorsList.length) {
+        alert("Zkuste obnovit stránku a znovu");
+    }
+    let check = true;
     Array.from(namesList).forEach(element => {
         let name = element.value;
+        if (name == "") {
+            check = false;
+            return;
+        }
         rawNames += name + ";";
     });
 
-    colorsList.forEach(value => {
-        rawColors += value + ";"
-    });
-
-    if (rawNames.endsWith(";")) {
-        rawNames = rawNames.slice(0, -1);
+    if (!check) {
+        alert("Jména nesmí být prázdná");
+        return;
     }
+    else {
 
-    if (rawColors.endsWith(";")) {
-        rawColors = rawColors.slice(0, -1);
+        colorsList.forEach(value => {
+            rawColors += value + ";"
+        });
+
+        if (rawNames.endsWith(";")) {
+            rawNames = rawNames.slice(0, -1);
+        }
+
+        if (rawColors.endsWith(";")) {
+            rawColors = rawColors.slice(0, -1);
+        }
+
+        const urinames = encodeURIComponent(rawNames);
+        const uricolors = encodeURIComponent(rawColors);
+        window.location.href = `main.html?names=${urinames}&colors=${uricolors}`;
     }
-
-    const urinames = encodeURIComponent(rawNames);
-    const uricolors = encodeURIComponent(rawColors);
-    window.location.href = `main.html?names=${urinames}&colors=${uricolors}`;
 });
 
 document.querySelectorAll('.color').forEach((button, i) => {
