@@ -154,6 +154,21 @@ button:active {
     overflow: hidden;
 }
 
+/* When there are exactly 2 cards, stack them vertically */
+#container.two-cards {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+#container.two-cards .user {
+    width: 100% !important;
+    margin-top: 40px !important;
+    margin-bottom: 0px !important;
+}
+
 
 
 #container .user:hover {
@@ -258,6 +273,25 @@ button:active {
     transform: scale(1.02) scaleY(-1) scaleX(-1);
     margin-top: 0px;
     margin-bottom: 40px;
+}
+
+/* Special handling for 2-card layout */
+#container.two-cards .user:nth-child(1) {
+    transform: scaleY(-1) scaleX(-1) !important;
+    margin-top: 0px !important;
+    margin-bottom: 40px !important;
+}
+
+#container.two-cards .user:nth-child(2) {
+    transform: none !important;
+}
+
+#container.two-cards .user:nth-child(1).moving {
+    transform: scale(1.02) scaleY(-1) scaleX(-1) !important;
+}
+
+#container.two-cards .user:nth-child(2).moving {
+    transform: scale(1.02) !important;
 }
 
 /* Stopwatch bar styles */

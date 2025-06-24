@@ -114,6 +114,7 @@ function loadConfig() {
     });
 
     updateTotalCounter();
+    updateContainerLayout();
 }
 
 function createUser(name = '', colorIndex = 0) {
@@ -200,11 +201,36 @@ window.userSortable = Sortable.create(container, {
     },
     onEnd: function (evt) {
         evt.item.classList.remove('moving');
+        updateContainerLayout(); // Update layout after drag ends
     }
 });
+
+// Function to update container layout based on number of cards
+function updateContainerLayout() {
+    const users = container.querySelectorAll('.user');
+    const userCount = users.length;
+
+    console.log('updateContainerLayout called, userCount:', userCount);
+
+    // Remove any existing layout classes
+    container.classList.remove('two-cards');
+
+    // Add appropriate class based on user count
+    if (userCount === 2) {
+        container.classList.add('two-cards');
+        console.log('Added two-cards class');
+    }
+
+    console.log('Container classes:', container.className);
+}
 
 // Load data from URL
 loadConfig();
 
 // Initialize total counter display
 updateTotalCounter();
+
+// Initialize container layout with a small delay to ensure DOM is ready
+setTimeout(() => {
+    updateContainerLayout();
+}, 100);
